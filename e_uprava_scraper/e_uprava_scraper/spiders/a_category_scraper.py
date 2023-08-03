@@ -9,6 +9,7 @@ KRANJ = 223
 class ACategoryScraperSpider(scrapy.Spider):
     name = "a_category"
     allowed_domains = ["e-uprava.gov.si"]
+    opn_appointments = []
 
     def start_requests(self):
         curr_date = date.today()
@@ -29,6 +30,7 @@ class ACategoryScraperSpider(scrapy.Spider):
                 ".upperOpomnikDiv > span:nth-child(2)::text").get()
             time = appointment.css(
                 ".contentOpomnik.celotnaSirina > div:nth-child(6) > span.bold::text").get()
+            self.opn_appointments.append((free_date, time, location))
             self.log(f"Free date: {free_date}")
             self.log(f"At location: {location}")
             self.log(f"At time: {time}\n")
