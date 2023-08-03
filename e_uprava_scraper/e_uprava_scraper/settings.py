@@ -12,6 +12,21 @@ BOT_NAME = "e_uprava_scraper"
 SPIDER_MODULES = ["e_uprava_scraper.spiders"]
 NEWSPIDER_MODULE = "e_uprava_scraper.spiders"
 
+# playwirght integration
+PLAYWRIGHT_BROWSER_TYPE = "chromium"
+
+DOWNLOAD_HANDLERS = {
+"http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+"https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+}
+
+TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
+
+PLAYWRIGHT_LAUNCH_OPTIONS = {
+"headless": True,
+"timeout": 20 * 1000, # 20 seconds
+}
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "e_uprava_scraper (+http://www.yourdomain.com)"
