@@ -20,8 +20,8 @@ class ACategoryScraperSpider(scrapy.Spider):
     def start_requests(self):
         curr_date = date.today()
         # format date to "2023-08-03" string
-        curr_date = curr_date.strftime("%Y-%m-%d")        
-        self.base_url = f"https://e-uprava.gov.si/si/javne-evidence/prosti-termini/content/singleton.html?&type=-&cat=4&izpitniCenter=18&lokacija={self.location}&calendar_date={curr_date}&offset=731&sentinel_type=ok&sentinel_status=ok&is_ajax=1&complete=false"
+        curr_date = curr_date.strftime("%Y-%m-%d")
+        self.base_url = f"https://e-uprava.gov.si/si/javne-evidence/prosti-termini/content/singleton.html?=&type=1&cat=4&izpitniCenter=18&lokacija={self.location}&calendar_date=2023-08-03&offset=0&sentinel_type=ok&sentinel_status=ok&is_ajax=1"
         self.crawler.stats.set_value('pages_checked', 0)
         yield scrapy.Request(url=self.base_url, callback=self.parse, meta={"playwright": True})
 
@@ -41,4 +41,4 @@ class ACategoryScraperSpider(scrapy.Spider):
         
         
 # new url
-#https://e-uprava.gov.si/si/javne-evidence/prosti-termini/content/singleton.html?&type=1&cat=4&izpitniCenter=18&lokacija=223&calendar_date=2023-08-03&offset=163.5&sentinel_type=ok&sentinel_status=ok&is_ajax=1
+# https://e-uprava.gov.si/si/javne-evidence/prosti-termini/content/singleton.html?=&type=1&cat=4&izpitniCenter=18&lokacija=223&calendar_date=2023-08-03&offset=0&sentinel_type=ok&sentinel_status=ok&is_ajax=1
