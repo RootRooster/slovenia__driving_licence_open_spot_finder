@@ -1,6 +1,7 @@
 import scrapy
 from datetime import date
-from time import sleep
+
+
 JESENICE = 171
 KRANJ = 223
 
