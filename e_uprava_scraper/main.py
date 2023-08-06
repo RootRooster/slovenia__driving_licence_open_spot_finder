@@ -1,19 +1,19 @@
 from e_uprava_scraper.spiders.a_category_scraper import ACategoryScraperSpider
 from scrapy.crawler import CrawlerProcess
 from email.message import EmailMessage
+import pandas as pd
+from time import sleep
 import smtplib
+import csv
 import ssl
 import os
 
-def send_email(location, time):
+def send_email(reciever_email, location, date, time):
     sender_email = 'kokiparot@gmail.com'
     email_password = os.getenv('APP_PASSWORD')
-    reciever_email = input('Enter your email: ')
     subject = 'NEW OPEN SPOT ON E-UPRAVA'
 
-    body = f'''
-                There is a new open spot in {location} at {time}.
-            '''
+    body = f'''There is a new open spot in {location} on {date} at {time}.'''
     
     email_msg = EmailMessage()
     email_msg['From'] = sender_email
@@ -31,10 +31,37 @@ def send_email(location, time):
 
 
 
+def clear_data():
+    # clear the data.csv file
+    with open('data.csv', 'w') as f:
+        f.write('')
+
+def process_data():
+    # process the data
+    df = pd.read_csv('data.csv', header=0)
+    df['date'] = pd.to_datetime(df['date'], format='%d. %m. %Y')
+    df = df.sort_values('date', ascending=True)
+    first_row = df.iloc[0]
+    first_location, first_date, first_time = first_row['location'], first_row['date'], first_row['time']
+    return first_location, first_date, first_time
+
 def main():
-    process = CrawlerProcess()
-    process.crawl(ACategoryScraperSpider)
-    process.start()
+    best_date = None
+    reciever_email = input('Enter your email: ')
+    while(True):
+        clear_data()
+        process = CrawlerProcess()
+        process.start()
+        process.crawl(ACategoryScraperSpider)
+        sleep(10)
+        location, date, time = process_data()
+        if best_date is None:
+            best_date = date
+            send_email(reciever_email, location, date, time)
+        elif best_date > date:
+            best_date = date
+            send_email(reciever_email, location, date, time)
+                
 
 
     

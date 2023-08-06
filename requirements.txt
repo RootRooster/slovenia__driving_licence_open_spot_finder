@@ -15,7 +15,9 @@ itemadapter==0.8.0
 itemloaders==1.1.0
 jmespath==1.0.1
 lxml==4.9.3
+numpy==1.25.2
 packaging==23.1
+pandas==2.0.3
 parsel==1.8.1
 playwright==1.36.0
 Protego==0.2.1
@@ -25,6 +27,8 @@ pycparser==2.21
 PyDispatcher==2.0.7
 pyee==9.0.4
 pyOpenSSL==23.2.0
+python-dateutil==2.8.2
+pytz==2023.3
 queuelib==1.6.2
 requests==2.31.0
 requests-file==1.5.1
@@ -35,6 +39,7 @@ six==1.16.0
 tldextract==3.4.4
 Twisted==22.10.0
 typing_extensions==4.7.1
+tzdata==2023.3
 urllib3==2.0.4
 w3lib==2.1.1
 zope.interface==6.0

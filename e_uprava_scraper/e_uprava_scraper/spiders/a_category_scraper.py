@@ -1,5 +1,6 @@
 import scrapy
 from datetime import date
+from ..items import OpenAppointmentItem
 
 
 JESENICE = 171
@@ -9,7 +10,9 @@ KRANJ = 223
 class ACategoryScraperSpider(scrapy.Spider):
     name = "a_category"
     allowed_domains = ["e-uprava.gov.si"]
-    opn_appointments = []
+    custom_settings = {
+        'FEEDS': {'data.csv': {'format': 'csv'}}
+    }
 
     def start_requests(self):
         curr_date = date.today()
@@ -25,12 +28,12 @@ class ACategoryScraperSpider(scrapy.Spider):
         open_appointments = response.css('div.js_dogodekBox.dogodek')
         self.log(open_appointments)
         for appointment in open_appointments:
-            free_date = appointment.css(".calendarBox > .sr-only::text").get()
+            new_appointment = OpenAppointmentItem()
+            new_appointment['date'] = appointment.css(
+                ".calendarBox > .sr-only::text").get()
             location = appointment.css(
-                ".upperOpomnikDiv > span:nth-child(2)::text").get()
-            time = appointment.css(
+                ".upperOpomnikDiv > span:nth-child(2)::text").get()[2:].replace(",", "")
+            new_appointment['location'] = location
+            new_appointment['time'] = appointment.css(
                 ".contentOpomnik.celotnaSirina > div:nth-child(6) > span.bold::text").get()
-            self.opn_appointments.append((free_date, time, location))
-            self.log(f"Free date: {free_date}")
-            self.log(f"At location: {location}")
-            self.log(f"At time: {time}\n")
+            yield new_appointment

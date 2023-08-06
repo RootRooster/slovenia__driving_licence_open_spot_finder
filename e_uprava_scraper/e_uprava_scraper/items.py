@@ -6,7 +6,7 @@
 import scrapy
 
 
-class EUpravaScraperItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class OpenAppointmentItem(scrapy.Item):
+    date = scrapy.Field()
+    location = scrapy.Field()
+    time = scrapy.Field()
