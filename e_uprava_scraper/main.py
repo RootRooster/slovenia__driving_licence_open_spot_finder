@@ -45,26 +45,30 @@ def process_data():
     first_location, first_date, first_time = first_row['location'], first_row['date'], first_row['time']
     return first_location, first_date, first_time
 
-def main():
-    best_date = None
-    reciever_email = input('Enter your email: ')
-    while(True):
-        clear_data()
-        process = CrawlerProcess()
-        process.start()
-        process.crawl(ACategoryScraperSpider)
-        sleep(10)
-        location, date, time = process_data()
-        if best_date is None:
-            best_date = date
-            send_email(reciever_email, location, date, time)
-        elif best_date > date:
-            best_date = date
-            send_email(reciever_email, location, date, time)
-                
-
+# def main():
+#     best_date = None
+#     reciever_email = input('Enter your email: ')
+#     process = CrawlerProcess()
+#     while(True):
+#         clear_data()
+#         process.crawl(ACategoryScraperSpider)
+#         process.start()
+        
+#         sleep(10)
+#         location, date, time = process_data()
+#         if best_date is None:
+#             best_date = date
+#             send_email(reciever_email, location, date, time)
+#         elif best_date > date:
+#             best_date = date
+#             send_email(reciever_email, location, date, time)          
+process = CrawlerProcess()
+process.crawl(ACategoryScraperSpider)
+while(True):
+    process.start()
+    sleep(10)
 
     
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
